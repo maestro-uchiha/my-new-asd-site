@@ -46,13 +46,8 @@ function Show-Menu {
   Write-Host "  7) Redirects          8) Build pagination      9) Bake"
   Write-Host " 10) Build + Bake      11) Check links          12) List posts"
   Write-Host " 13) Open post         14) Edit config.json     15) Commit all (git)"
-  Write-Host " -- Pages ------------------------------------------------------------"
-  Write-Host " 16) New page          17) Edit page            18) Rename page"
-  Write-Host " 19) Delete page       20) List pages"
   Write-Host "  q) Quit"
 }
-
-# ---------------- Posts ----------------
 
 function Do-NewPost {
   $title = Ask "Title"
@@ -88,9 +83,9 @@ function Do-RenamePost {
   $old = Ask "Old slug"
   $new = Ask "New slug"
   $keep = Ask-YesNo "Leave redirect file in place?" $true
-  $script = Join-Path $ScriptsDir "rename-post.ps1"
-  if ($keep) { & $script -OldSlug $old -NewSlug $new -LeaveRedirect }
-  else       { & $script -OldSlug $old -NewSlug $new }
+  $switch = @()
+  if ($keep) { $switch = @('-LeaveRedirect') }
+  & (Join-Path $ScriptsDir "rename-post.ps1") -OldSlug $old -NewSlug $new @switch
 }
 
 function Do-DeletePost {
@@ -178,68 +173,6 @@ function Do-EditConfig {
   catch { notepad.exe $cfgPath }
 }
 
-# ---------------- Pages ----------------
-
-function Do-NewPage {
-  $path = Ask "New page path (e.g. about or legal/policy)"
-  $t = Ask "Title"
-  $d = Ask "Description" ""
-  $b = Ask "BodyHtml (optional)" ""
-
-  $ps = @{ Path = $path; Title = $t }
-  if (-not [string]::IsNullOrWhiteSpace($d)) { $ps.Description = $d }
-  if (-not [string]::IsNullOrWhiteSpace($b)) { $ps.BodyHtml    = $b }
-
-  & (Join-Path $ScriptsDir "new-page.ps1") @ps
-}
-
-function Do-EditPage {
-  $path = Ask "Page path to edit (e.g. about or legal/privacy)"
-  $t = Ask "New Title (blank=keep)" ""
-  $d = Ask "New Description (blank=keep)" ""
-  $b = Ask "New BodyHtml (blank=keep)" ""
-  $a = ""  # reserved if you later want to prompt for Author
-
-  $ps = @{ Path = $path }  # splatting avoids positional/space bugs
-  if (-not [string]::IsNullOrWhiteSpace($t)) { $ps.Title       = $t }
-  if (-not [string]::IsNullOrWhiteSpace($d)) { $ps.Description = $d }
-  if (-not [string]::IsNullOrWhiteSpace($b)) { $ps.BodyHtml    = $b }
-  if (-not [string]::IsNullOrWhiteSpace($a)) { $ps.Author      = $a }
-
-  & (Join-Path $ScriptsDir "update-page.ps1") @ps
-}
-
-function Do-RenamePage {
-  $old = Ask "Old page path (e.g. about or legal/privacy)"
-  $new = Ask "New page path (e.g. about-us or legal/policy)"
-  $keep = Ask-YesNo "Leave redirect file in place?" $true
-  $script = Join-Path $ScriptsDir "rename-page.ps1"
-  if ($keep) { & $script -OldPath $old -NewPath $new -LeaveRedirect }
-  else       { & $script -OldPath $old -NewPath $new }
-}
-
-function Do-DeletePage {
-  $path = Ask "Page path to delete (e.g. about or legal/privacy)"
-  & (Join-Path $ScriptsDir "delete-page.ps1") -Path $path
-}
-
-function Do-ListPages {
-  # List non-blog HTML pages under root (exclude blog/, assets/, partials/, parametric-static/)
-  $root = $S.Root
-  if (-not (Test-Path $root)) { Write-Host "(root missing)"; return }
-
-  $all = Get-ChildItem -Path $root -Filter *.html -File -Recurse
-  if (-not $all) { Write-Host "(no pages found)"; return }
-
-  foreach ($f in $all) {
-    $rel = ($f.FullName.Substring($root.Length)).TrimStart('\','/')
-    $rel = $rel -replace '\\','/'
-    if ($rel -match '^(blog/|assets/|partials/|parametric-static/)') { continue }
-    if ($rel -eq 'layout.html') { continue }
-    Write-Host $rel
-  }
-}
-
 # ------- Git helpers -------
 function Test-GitAvailable { try { $null = (& git --version) 2>$null; return ($LASTEXITCODE -eq 0) } catch { return $false } }
 function Get-GitRoot {
@@ -317,11 +250,6 @@ while ($true) {
     '13' { Do-OpenPost }
     '14' { Do-EditConfig }
     '15' { Do-CommitAll }
-    '16' { Do-NewPage }
-    '17' { Do-EditPage }
-    '18' { Do-RenamePage }
-    '19' { Do-DeletePage }
-    '20' { Do-ListPages }
     'q'  { break }
     'Q'  { break }
     default { Write-Host "Unknown choice." }
