@@ -2,16 +2,16 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>My ASD Site</title>
   <id>https://maestro-uchiha.github.io/my-new-asd-site/</id>
-  <updated>2025-08-28T10:29:45Z</updated>
+  <updated>2025-08-28T10:59:51Z</updated>
   <link rel="self" href="https://maestro-uchiha.github.io/my-new-asd-site/atom.xml"/>
   <entry>
-    <title>the-seventh-post | My ASD Site</title>
+    <title>The Seventh Post | My ASD Site</title>
     <link href="https://maestro-uchiha.github.io/my-new-asd-site/blog/the-seventh-post.html"/>
     <id>https://maestro-uchiha.github.io/my-new-asd-site/blog/the-seventh-post.html</id>
     <updated>2025-08-27T22:17:46Z</updated>
   </entry>
   <entry>
-    <title>old-slug | My ASD Site</title>
+    <title>Old Slug | My ASD Site</title>
     <link href="https://maestro-uchiha.github.io/my-new-asd-site/blog/old-slug.html"/>
     <id>https://maestro-uchiha.github.io/my-new-asd-site/blog/old-slug.html</id>
     <updated>2025-08-27T22:17:46Z</updated>

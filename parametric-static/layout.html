@@ -4,12 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>{{TITLE}} | {{BRAND}}</title>
+  <title>{{TITLE}} | {{SITE_NAME}}</title>
   <meta name="description" content="{{DESCRIPTION}}">
+  <meta name="author" content="{{AUTHOR}}">
+
+  <!-- Canonical will be injected by bake.ps1 -->
+  <!-- Robots will be injected by bake.ps1 -->
 
   <!-- Open Graph -->
-  <meta property="og:title" content="{{TITLE}} | {{BRAND}}">
+  <meta property="og:title" content="{{TITLE}} | {{SITE_NAME}}">
   <meta property="og:description" content="{{DESCRIPTION}}">
+  <!-- Will be replaced by bake.ps1 with an ABSOLUTE URL if assets/img/og.(jpg|jpeg|png|webp) exists -->
   <meta property="og:image" content="{{PREFIX}}assets/img/og.jpeg">
   <meta property="og:type" content="website">
 
@@ -33,19 +38,21 @@
   </script>
 
   <link rel="stylesheet" href="{{PREFIX}}assets/css/style.css">
-  <link rel="alternate" type="application/rss+xml" title="{{BRAND}} Blog" href="{{PREFIX}}feed.xml">
+
+  <!-- Feeds will be added by bake.ps1 if missing -->
+  <link rel="alternate" type="application/rss+xml"  title="{{SITE_NAME}} RSS"  href="{{PREFIX}}feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="{{SITE_NAME}} Atom" href="{{PREFIX}}atom.xml">
 </head>
 <body>
   <header>
-    <h1><a href="{{PREFIX}}index.html">{{BRAND}}</a></h1>
+    <h1><a href="{{PREFIX}}index.html">{{SITE_NAME}}</a></h1>
 
-    <!-- Mobile toggle (CSS bars, ASCII-safe) -->
+    <!-- Mobile toggle -->
     <button id="navToggle" class="nav-toggle"
             aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
       <span class="bar"></span><span class="bar"></span><span class="bar"></span>
     </button>
 
-    <!-- Collapsible nav -->
     <nav id="site-nav">
       <ul>
         <li><a href="{{PREFIX}}index.html">Home</a></li>
@@ -74,10 +81,10 @@
       <a href="{{PREFIX}}legal/terms.html">Terms</a> |
       <a href="{{PREFIX}}sitemap.html">Sitemap</a>
     </p>
-    <p>&copy; {{YEAR}} {{BRAND}}. All rights reserved.</p>
+    <p>&copy; {{YEAR}} {{SITE_NAME}}. All rights reserved.</p>
   </footer>
 
-  <!-- Single rectangular theme toggle (inline onclick so it ALWAYS works) -->
+  <!-- Single rectangular theme toggle -->
   <button
     class="asd-theme-toggle"
     id="asd-theme-toggle"
@@ -100,15 +107,9 @@
         nav.classList.toggle('open', open);
         btn.classList.toggle('is-active', open);
       }
-      btn.addEventListener('click', function () {
-        set(btn.getAttribute('aria-expanded') !== 'true');
-      });
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') set(false);
-      });
-      nav.addEventListener('click', function (e) {
-        if (e.target && e.target.tagName === 'A') set(false);
-      });
+      btn.addEventListener('click', function () { set(btn.getAttribute('aria-expanded') !== 'true'); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') set(false); });
+      nav.addEventListener('click', function (e) { if (e.target && e.target.tagName === 'A') set(false); });
     })();
   </script>
 </body>
