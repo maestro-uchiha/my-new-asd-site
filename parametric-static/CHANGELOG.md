@@ -9,3 +9,14 @@
 # Changelog
 
 
+# Contributing
+
+Thanks for your interest in improving **My ASD Site**!
+
+## Development Setup
+
+1. Install PowerShell 5.1+ (or PowerShell 7) and git.
+2. Clone the repo and create a feature branch.
+3. Run the wizard locally:
+   ```powershell
+   powershell -ExecutionPolicy Bypass -File parametric-static\scripts\post-wizard.ps1

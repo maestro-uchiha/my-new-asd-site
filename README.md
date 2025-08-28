@@ -1,29 +1,29 @@
-# Amaterasu Static Deploy (ASD) — Template
+# My ASD Site
 
-A tiny static boilerplate that “bakes” HTML files using a shared `layout.html`, fixes paths for GitHub Pages subfolders, auto-builds `sitemap.xml`, preserves a strict `robots.txt`, and ships helper scripts for posts, pagination, and redirects.
+Clean static sites with **ASD (Amaterasu Static Deploy)**—a tiny, Git-friendly toolkit powered by PowerShell.
 
-- **Changelog:** see [CHANGELOG.md](./CHANGELOG.md)
-- **Current version:** `v1.1.0`
-- **Works with:** GitHub Pages (project subpath) and custom domains
-- **Stack:** Plain HTML/CSS + PowerShell scripts (Windows-friendly)
+## What’s inside
 
----
+- `parametric-static/` – ASD tools (bake, pagination, redirects, wizards)
+- `blog/` – your posts as plain HTML
+- `assets/` – CSS, images, favicon
+- Top-level pages (e.g., `index.html`, `about.html`, etc.)
 
-## Quick start
+## Prerequisites
 
-```powershell
-# 1) Allow scripts (first time only)
-Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+- **Windows PowerShell 5.1+** (or PowerShell 7)  
+- **git** on PATH  
+- Optional: **VS Code** for editing
 
-# 2) Clone your site
-git clone https://github.com/maestro-uchiha/ace-ultra-premium-site.git
-cd ace-ultra-premium-site\parametric-static
+## Configure
 
-# 3) Bake the site (wrap pages + sitemap + robots sitemap URL)
-.\scripts\bake.ps1 -Brand "Ace Ultra Premium" -Money "https://acecartstore.com"
+Edit `parametric-static/config.json`:
 
-## License
-
-**Proprietary – All rights reserved.**  
-No permission is granted to use, copy, modify, or redistribute this repository or any part of it without
-explicit written permission from the copyright holder.
+```json
+{
+  "SiteName": "My ASD Site",
+  "StoreUrl": "https://example.com/",
+  "Description": "Clean static sites with ASD.",
+  "BaseUrl": "https://<your-user>.github.io/<your-repo>/",
+  "author": { "name": "Maestro" }
+}
