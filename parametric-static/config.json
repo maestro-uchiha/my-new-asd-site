@@ -2,5 +2,6 @@
   "SiteName": "My ASD Site",
   "StoreUrl": "https://example.com/",
   "Description": "Clean static sites with ASD.",
-  "BaseUrl": "https://maestro-uchiha.github.io/my-new-asd-site/"
+  "BaseUrl": "https://maestro-uchiha.github.io/my-new-asd-site/",
+  "author": { "name": "Maestro" }
 }
