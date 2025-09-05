@@ -68,7 +68,7 @@ function Get-MetaDateFromHtml([string]$html) {
   return $null
 }
 
-Write-Host "[paginate] Scanning posts in $BlogDir …"
+Write-Host "[paginate] Scanning posts in $BlogDir ..."
 
 # Collect posts using stable date (prefer meta date, else CreationTime)
 $posts = @()
