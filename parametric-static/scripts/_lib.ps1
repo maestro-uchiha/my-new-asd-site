@@ -226,19 +226,29 @@ function Extract-Content {
     return $mark.Groups[2].Value
   }
 
-  # 2) Fallback to <main>, else <body>
+  # 2) Fallback to <main>, else <body>; remember source
+  $from = 'raw'
   $m = [regex]::Match($raw, '(?is)<main\b[^>]*>(.*?)</main>')
-  if ($m.Success) { $raw = $m.Groups[1].Value } else {
+  if ($m.Success) {
+    $raw  = $m.Groups[1].Value
+    $from = 'main'
+  } else {
     $b = [regex]::Match($raw, '(?is)<body\b[^>]*>(.*?)</body>')
-    if ($b.Success) { $raw = $b.Groups[1].Value }
+    if ($b.Success) { $raw = $b.Groups[1].Value; $from = 'body' }
   }
 
-  # 3) Strip SSIs and any existing header/nav/footer wrappers
+  # 3) Strip SSIs and wrappers
   $raw = [regex]::Replace($raw, '(?is)<!--#include\s+virtual="partials/.*?-->', '')
   $raw = [regex]::Replace($raw, '(?is)<header\b[^>]*>.*?</header>', '')
-  $raw = [regex]::Replace($raw, '(?is)<nav\b[^>]*>.*?</nav>', '')
   $raw = [regex]::Replace($raw, '(?is)<footer\b[^>]*>.*?</footer>', '')
-  # If another <main> wrapper remains, drop it
+
+  # IMPORTANT: Only strip <nav> when we did NOT extract from <main>.
+  # This preserves pagination/nav inside <main> (e.g., <nav class="pager">…</nav>).
+  if ($from -ne 'main') {
+    $raw = [regex]::Replace($raw, '(?is)<nav\b[^>]*>.*?</nav>', '')
+  }
+
+  # Remove stray <main> tags if any
   $raw = [regex]::Replace($raw, '(?is)</?main\b[^>]*>', '')
 
   return $raw
