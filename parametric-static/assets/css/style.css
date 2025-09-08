@@ -102,13 +102,13 @@ header {
   flex-wrap: wrap;
 }
 
-header h1 {
+header div {
   margin: 0;
   font-weight: 800;
   line-height: 1.2;
   font-size: clamp(1.25rem, 2vw + 1rem, 2rem);
 }
-header h1 a { color: #fff; text-decoration: none; }
+header div a { color: #fff; text-decoration: none; }
 
 /* === Mobile nav button (rectangular bars) === */
 :root{
@@ -160,7 +160,7 @@ header h1 a { color: #fff; text-decoration: none; }
   nav { width: auto; margin-left: auto; min-width: 0; }                    /* push to right */
   .nav-toggle { display: none; }
   header { flex-wrap: nowrap; align-items: center; }                        /* keep same line */
-  header h1 { display: flex; align-items: center; white-space: nowrap; }    /* prevent brand wrap */
+  header div { display: flex; align-items: center; white-space: nowrap; }    /* prevent brand wrap */
 }
 
 /* Nav */
